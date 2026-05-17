@@ -1,5 +1,13 @@
-1. What is Cloud Computing?
+#1. What is Cloud Computing?
 
 Cloud computing means delivering computing services — servers, storage, databases, networking, software — over the internet (the cloud) on a pay-as-you-go basis.
 
 Instead of buying and maintaining physical hardware, you rent computing resources from a cloud provider like AWS, Azure, or GCP.
+
+Traditional IT                     Cloud Computing
+────────────────                   ─────────────────
+Buy hardware upfront               Pay per use
+Weeks to provision                 Minutes to provision
+You manage everything              Provider manages hardware
+Fixed capacity                     Elastic (scale up/down)
+High CapEx                         Low OpEx
