@@ -16,4 +16,5 @@ Key EC2 capabilities:
 - Choose CPU, memory, storage, and networking capacity
 - Scale from 1 to thousands of instances
 - Full control of the OS and applications
-<u>- Stop/start/terminate on demand</u>
+- Stop/start/terminate on demand
+_____________________________________________________________________________________
