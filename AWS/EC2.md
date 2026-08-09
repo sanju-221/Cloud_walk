@@ -18,3 +18,4 @@ Key EC2 capabilities:
 - Full control of the OS and applications
 - Stop/start/terminate on demand
 _____________________________________________________________________________________
+
