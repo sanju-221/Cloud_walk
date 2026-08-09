@@ -28,7 +28,7 @@ Instance Name:  m5.xlarge
                 │ │ └── Size
                 │ └──── Generation (5th generation)
                 └────── Family (m = general purpose)
-```
+
 Instance Families: 
 | Family | Type	| Use Cases |
 |---|---|---|
