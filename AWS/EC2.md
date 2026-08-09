@@ -23,7 +23,7 @@ ________________________________________________________________________________
 # 2. EC2 Instance Types
 -------------------------------------------------------------------------------------
 EC2 instance types follow a naming pattern:
-```
+```text
 Instance Name:  m5.xlarge
                 │ │ └── Size
                 │ └──── Generation (5th generation)
