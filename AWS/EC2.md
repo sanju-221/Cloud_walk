@@ -10,7 +10,7 @@ Fixed CPU, RAM, storage              Choose instance type
 Physical location                    Any region globally
 You maintain hardware                AWS maintains hardware
 Pay even when idle                   Pay per second/hour
-
+```
 Key EC2 capabilities:
 
 - Launch virtual machines with various OS (Linux, Windows, macOS)
@@ -21,7 +21,6 @@ Key EC2 capabilities:
 _____________________________________________________________________________________
 
 # 2. EC2 Instance Types
--------------------------------------------------------------------------------------
 EC2 instance types follow a naming pattern:
 ```text
 Instance Name:  m5.xlarge
@@ -41,3 +40,19 @@ Instance Families:
 | x	| Memory Optimized (extreme)| SAP HANA, large in-memory DBs|
 
 Common Sizes (smallest to largest)
+```
+nano → micro → small → medium → large → xlarge → 2xlarge → 4xlarge → ...
+```
+Most Common for Learning
+| Instance	| vCPU	 | RAM	| Use Case |
+|---|---|---|---|
+| t2.micro	| 1	| 1 GB	| Free tier, learning |
+| t3.micro	| 2	| 1 GB	| Free tier eligible |
+| t3.small	| 2	| 2 GB	| Small web apps |
+| t3.medium	| 2	| 4 GB	| Moderate workloads | 
+| m5.large	| 2	| 8 GB	| Production web servers |
+| c5.large	| 2	| 4 GB	| CPU-heavy workloads |
+| r5.large	| 2	| 16 GB	| Memory-heavy workloads |
+
+>For the exam/interviews: T instances are "burstable" — they earn CPU credits when idle and spend them during spikes. M instances >are always-available balanced. C instances are for compute-heavy work.
+_________________________________________________________________________________________________________________________
