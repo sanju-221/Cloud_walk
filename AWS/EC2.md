@@ -1,3 +1,23 @@
+# AWS EC2 - Guide
+EC2 - Elastic Compute Cloud
+# Table of Contents
+
+1. [What is EC2?](#what-is-ec2)
+2. [EC2 Instance Types](#ec2-instance-types)
+3. [Launching an EC2 Instance](#launching-an-ec2-instance)
+4. [Key Pairs and SSH Access](#key-pairs-and-ssh-access)
+5. [EC2 User Data](#ec2-user-data)
+6. [EC2 Instance Lifecycle](#ec2-instance-lifecycle)
+7. [EC2 Pricing Models](#ec2-pricing-models)
+8. [EC2 Storage Options](#ec2-storage-options)
+9. [EC2 Networking](#ec2-networking)
+10. [EC2 Metadata Service](#ec2-metadata-service)
+11. [EC2 Auto Scaling Overview](#ec2-auto-scaling-overview)
+12. [EC2 Placement Groups](#ec2-placement-groups)
+13. [Common Troubleshooting](#common-troubleshooting)
+14. [EC2 Quick Reference Cheat Sheet](#ec2-quick-reference-cheat-sheet)
+15. [Common Interview Questions](#common-interview-questions)
+
 # 1. What is EC2?
 Amazon EC2 (Elastic Compute Cloud) is AWS's virtual machine service. It allows you to run virtual servers (instances) in the cloud within minutes.
 
