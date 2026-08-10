@@ -370,3 +370,105 @@ curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-da
 ```
 > IP 169.254.169.254 is a link-local address — only accessible from within the EC2 instance itself.
 __________________________________________________________________________________________________________________
+# 11. EC2 Auto Scaling Overview
+Auto Scaling automatically adjusts the number of EC2 instances based on demand.
+```
+                    High Traffic
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │   Auto Scaling      │
+              │   Group (ASG)       │
+              │                     │
+              │   Min: 2 instances  │
+              │   Max: 10 instances │
+              │   Desired: 4        │
+              └────────┬────────────┘
+                       │
+              Scale-out when CPU > 70%
+              Scale-in when CPU < 30%
+```
+Components:
+
+- Launch Template: Defines instance configuration (AMI, type, key, SG)
+- Auto Scaling Group: The group of instances, with min/max/desired counts
+- Scaling Policy: Rules for when to scale (CPU-based, schedule-based, custom metric)
+___________________________________________________________________________________________________________________________
+# 12. EC2 Placement Groups
+
+Control how instances are placed across underlying hardware.
+| Type	| Description	| Use Case |
+|---|---|---|
+| Cluster	| Pack instances close together in same AZ	| Low latency, HPC, high throughput |
+| Spread	| Spread across distinct hardware (max 7/AZ) |	Critical instances, HA |
+| Partition	| Groups of instances on different racks	| Large distributed systems (Kafka, Cassandra) |
+___________________________________________________________________________________________________________________________
+# 13. Common Troubleshooting
+Cannot SSH into instance
+```
+Checklist:
+□ Security group allows port 22 from your IP
+□ Instance is in Running state (not Stopped)
+□ Key file has correct permissions (chmod 400)
+□ Using correct username (ec2-user, ubuntu, admin)
+□ Instance has public IP or you're using correct private IP
+□ Subnet has internet gateway route (for public instances)
+```
+Instance not starting (Pending for too long)
+```
+□ Check instance limits in the region (default: 32 vCPU limit)
+□ Spot instance may have been interrupted
+□ Check AWS Health Dashboard for AZ issues
+```
+Application not accessible from browser
+```
+□ Security group allows the app port (e.g., 80 for HTTP, 443 for HTTPS)
+□ Application is actually running on the instance
+□ Correct public IP/DNS being used
+□ Network ACL is not blocking traffic
+```
+_________________________________________________________________________________________________________________________
+# 14. EC2 Quick Reference Cheat Sheet
+```
+# Instance operations
+aws ec2 run-instances --image-id <ami> --instance-type t2.micro --key-name <key>
+aws ec2 start-instances --instance-ids <id>
+aws ec2 stop-instances --instance-ids <id>
+aws ec2 terminate-instances --instance-ids <id>
+aws ec2 describe-instances --output table
+
+# Elastic IPs
+aws ec2 allocate-address --domain vpc
+aws ec2 associate-address --instance-id <id> --allocation-id <eip-id>
+aws ec2 release-address --allocation-id <eip-id>
+
+# Key pairs
+aws ec2 create-key-pair --key-name <name> --query 'KeyMaterial' --output text > key.pem
+aws ec2 describe-key-pairs
+aws ec2 delete-key-pair --key-name <name>
+
+# AMIs
+aws ec2 describe-images --owners self --output table
+aws ec2 create-image --instance-id <id> --name "my-ami" --description "My backup AMI"
+```
+# 15. Common Interview Questions
+Q: What is the difference between stopping and terminating an EC2 instance?
+> Stopping an instance shuts it down but keeps the EBS root volume — you can start it again later (but the public IP changes). Terminating permanently deletes the instance and, by default, also deletes the root EBS volume. Termination is irreversible.
+
+Q: What is an Elastic IP and when would you use it?
+> An Elastic IP is a static public IPv4 address. You use it when you need a fixed public IP that does not change when you stop/start an instance. Common use: servers where clients need a stable IP address, or when running a fail-over setup where you re-attach the EIP to a healthy instance.
+
+Q: What is user data in EC2?
+> User data is a script (bash, cloud-init) that runs once when an EC2 instance first launches. It is used to bootstrap the instance — install packages, configure services, download code. It runs as root and executes only on the first boot.
+
+Q: What is the difference between On-Demand, Reserved, and Spot instances?
+> On-Demand: pay per second, no commitment, most flexible. Reserved: 1-3 year commitment, up to 72% discount, for steady workloads. Spot: bid on unused capacity, up to 90% off, but AWS can reclaim with 2-minute warning. Choose based on workload predictability and risk tolerance.
+
+Q: What happens to data on an Instance Store when an instance stops?
+> Instance Store data is lost permanently when an instance is stopped, terminated, or the underlying host fails. Instance Store is ephemeral — use it only for temporary data (cache, buffers) and not for data that must persist.
+
+Q: What is the EC2 metadata service?
+> It is an HTTP endpoint at 169.254.169.254 accessible only from within an EC2 instance. It provides instance metadata: instance ID, type, IP, IAM role credentials, and more. Used by applications running on EC2 to query their own environment without hardcoding values. IMDSv2 is the more secure version requiring a session token.
+
+Q: What are placement groups and when do you use them?
+> Placement groups control how instances are placed on underlying hardware. Cluster groups pack instances together for low-latency networking (HPC workloads). Spread groups put each instance on different hardware to reduce correlated failures (critical services). Partition groups divide instances into logical partitions on different racks, used for large distributed databases.
