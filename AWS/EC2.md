@@ -207,3 +207,114 @@ aws ec2 run-instances \
   --user-data file://user-data.sh
 ```
 > Debugging User Data: Check logs at /var/log/cloud-init-output.log to see if the script ran successfully.
+
+# 6. EC2 Instance Lifecycle
+```
+          ┌─────────┐
+          │ Pending  │  ← Instance is starting, no charge
+          └────┬─────┘
+               │
+               ▼
+          ┌─────────┐
+  ┌──────►│ Running  │◄──────┐  ← Billed per second
+  │       └────┬─────┘       │
+  │            │ stop        │ start
+  │            ▼             │
+  │       ┌─────────┐        │
+  │       │ Stopping│        │
+  │       └────┬─────┘       │
+  │            │             │
+  │            ▼             │
+  │       ┌─────────┐        │
+  └───────│ Stopped │────────┘  ← Not billed for compute,
+          └────┬─────┘           EBS storage still billed
+               │ terminate
+               ▼
+          ┌─────────────┐
+          │ Shutting    │
+          │ down        │
+          └──────┬──────┘
+                 │
+                 ▼
+          ┌──────────────┐
+          │  Terminated  │  ← Final state, cannot be recovered
+          └──────────────┘
+```
+## Key Behaviors
+|State	| Billed?	| Can Start?	| Public IP? |
+|---|---|---|---|
+|Pending |	No	| -	|Assigned |
+|Running |	Yes|Already running	| Yes |
+|Stopping |No	| -	| - |
+|Stopped |	EBS only |	Yes| Released |
+|Terminated |	No| No (gone forever)	| Released |
+
+>Important: When you stop and start an EC2 instance, the public IP changes unless you use an Elastic IP!
+
+## Elastic IP Address
+- A static public IP that stays with your account
+- You can attach/detach it from instances
+- Free while attached to a running instance
+- Charges apply if allocated but not attached (to prevent hoarding)
+```
+# Allocate an Elastic IP
+aws ec2 allocate-address --domain vpc
+
+# Associate with an instance
+aws ec2 associate-address \
+  --instance-id i-1234567890abcdef0 \
+  --allocation-id eipalloc-xxxxxxxx
+```
+_______________________________________________________________________________________________________________
+
+# 7. EC2 Pricing Models
+
+## On-Demand
+```
+Pay per second (Linux) or per hour (Windows)
+No upfront commitment
+Most flexible but most expensive
+Best for: testing, unpredictable workloads
+```
+## Reserved Instances (RI)
+```
+1-year or 3-year commitment
+Up to 72% savings vs On-Demand
+Payment options:
+  - All Upfront (biggest discount)
+  - Partial Upfront
+  - No Upfront (smallest discount)
+Best for: steady-state production workloads
+```
+## Spot Instances
+```
+Bid on unused AWS capacity
+Up to 90% cheaper
+AWS can reclaim with 2-minute notice
+Best for: batch jobs, data analysis, fault-tolerant apps
+```
+## Savings Plans
+```
+Commit to $X/hour for 1 or 3 years
+Automatically applies to EC2, Lambda, Fargate
+More flexible than RIs
+Best for: mixed workloads
+```
+## Comparison Table
+| Model	| Cost	| Flexibility	| Interruption Risk |
+|---|---|---|---|
+| On-Demand	| $$$$ |	Highest	| None |
+| Reserved	| $$ |	Low	| None |
+| Savings | Plans |	$$	| Medium	| None |
+| Spot	| $	| Medium	| Yes (2-min warning) |
+| Dedicated Host |	$$$$	| Low	| None |
+_________________________________________________________________________________________________________________
+# 8. EC2 Storage Options
+| Storage Type	| Description	| Persistence	| Use Case |
+|---|---|---|---|
+| EBS	| Network-attached block storage	| Persists after stop	| OS disk, databases |
+| Instance Store	| Physical disk on host |	Lost on stop/terminate	| Temp files, cache |
+| EFS	| Network file system (NFS) |	Always persistent	| Shared storage across instances |
+| S3	| Object storage	| Always persistent |	Static files, backups |
+>Key rule: EBS root volumes are deleted when the instance terminates by default (can be changed). Instance store is always lost.
+_____________________________________________________________________________________________________________________
