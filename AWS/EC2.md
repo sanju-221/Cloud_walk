@@ -318,3 +318,55 @@ ________________________________________________________________________________
 | S3	| Object storage	| Always persistent |	Static files, backups |
 >Key rule: EBS root volumes are deleted when the instance terminates by default (can be changed). Instance store is always lost.
 _____________________________________________________________________________________________________________________
+# 9. EC2 Networking
+
+## Public vs Private IP
+Every EC2 instance can have:
+
+- Private IP: Always assigned, stays the same while instance exists
+- Public IP: Assigned if in a public subnet with "Auto-assign" enabled, changes on stop/start
+- Elastic IP: Static public IP you manage
+
+## EC2 and ENI (Elastic Network Interface)
+
+- Each EC2 gets a default ENI (Elastic Network Interface)
+- You can attach additional ENIs for multiple IPs or network interfaces
+- ENIs can be moved between instances (useful for failover)
+```
+# Get instance's public IP
+aws ec2 describe-instances \
+  --instance-ids i-xxxx \
+  --query 'Reservations[0].Instances[0].PublicIpAddress' \
+  --output text
+
+# Get private IP
+aws ec2 describe-instances \
+  --instance-ids i-xxxx \
+  --query 'Reservations[0].Instances[0].PrivateIpAddress' \
+  --output text
+```
+__________________________________________________________________________________________________________________
+# 10. EC2 Metadata Service
+
+Instance Metadata Service (IMDS) allows EC2 instances to query their own metadata from within the instance.
+```
+# SSH into your EC2 instance, then run:
+
+# Get instance ID
+curl http://169.254.169.254/latest/meta-data/instance-id
+
+# Get instance type
+curl http://169.254.169.254/latest/meta-data/instance-type
+
+# Get public IP
+curl http://169.254.169.254/latest/meta-data/public-ipv4
+
+# Get IAM role credentials (if attached)
+curl http://169.254.169.254/latest/meta-data/iam/security-credentials/
+
+# IMDSv2 (more secure, required for new instances)
+TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/instance-id
+```
+> IP 169.254.169.254 is a link-local address — only accessible from within the EC2 instance itself.
+__________________________________________________________________________________________________________________
