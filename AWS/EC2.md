@@ -2,8 +2,8 @@
 EC2 - Elastic Compute Cloud
 # Table of Contents
 
-1. [What is EC2?](#what-is-ec2)
-2. [EC2 Instance Types](#ec2-instance-types)
+1. [What is EC2?](#what-is-EC2)
+2. [EC2 Instance Types](#EC2-instance-types)
 3. [Launching an EC2 Instance](#launching-an-ec2-instance)
 4. [Key Pairs and SSH Access](#key-pairs-and-ssh-access)
 5. [EC2 User Data](#ec2-user-data)
