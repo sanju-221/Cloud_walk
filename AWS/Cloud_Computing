@@ -23,7 +23,7 @@ ________________________________________________________________________________
 # 2. Why Cloud Computing?
 
 Problems with Traditional Data Centers
-```
+```text
 Traditional DC Pain Points:
 ┌────────────────────────────────────────┐
 │ 1. Capital Expense (servers, racks)    │
