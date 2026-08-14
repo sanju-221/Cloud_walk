@@ -254,3 +254,22 @@ AWS offers free usage for new accounts for 12 months on many services:
 | CloudFront   | 1 TB data transfer out/month |
 
 > Warning: Always set up billing alerts when using AWS — unexpected charges are common for beginners who forget to stop resources.
+__________________________________________________________________________________________________________________________
+# 10. AWS Management Console, CLI, and SDK
+
+## Three Ways to Interact with AWS
+1. AWS Management Console (Web UI)
+- Browser-based GUI at console.aws.amazon.com
+- Best for exploration and learning
+- Visual representation of resources
+
+2. AWS CLI (Command Line Interface)
+- Command-line tool for managing AWS services
+- Install
+```
+# Linux
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip && sudo ./aws/install
+```
+- aws configure
+# Prompts for: Access Key ID, Secret Key, Region, Output format
