@@ -299,3 +299,28 @@ for bucket in response['Buckets']:
 ```
 _________________________________________________________________________________________________________________________
 
+11. Shared Responsibility Model
+This is one of the most important AWS concepts. AWS and you share responsibility for security.
+```
+┌─────────────────────────────────────────────────────────────┐
+│                 YOUR RESPONSIBILITY                         │
+│   "Security IN the cloud"                                   │
+│                                                             │
+│   ■ Customer data                                           │
+│   ■ Platform, applications, identity management            │
+│   ■ Operating system, network, firewall configuration       │
+│   ■ Client-side data encryption                             │
+│   ■ Server-side encryption (file system/data)               │
+│   ■ Networking traffic protection                           │
+├─────────────────────────────────────────────────────────────┤
+│                 AWS RESPONSIBILITY                           │
+│   "Security OF the cloud"                                   │
+│                                                             │
+│   ■ Hardware / global infrastructure                        │
+│   ■ Regions, AZs, Edge Locations                            │
+│   ■ Compute, Storage, Database, Networking services         │
+│   ■ Physical security of data centers                       │
+└─────────────────────────────────────────────────────────────┘
+```
+> Real-world analogy: You rent an apartment. The building owner is responsible for the building's security (locks, walls, fire suppression). You are responsible for locking your own door and not leaving valuables visible.
+______________________________________________________________________________________________________________________________
