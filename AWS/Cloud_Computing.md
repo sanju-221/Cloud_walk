@@ -271,5 +271,31 @@ ________________________________________________________________________________
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip && sudo ./aws/install
 ```
-- aws configure
+- Configure: 
+```
+aws configure
 # Prompts for: Access Key ID, Secret Key, Region, Output format
+```
+- Basic commands:
+```
+aws s3 ls                          # List S3 buckets
+aws ec2 describe-instances         # List EC2 instances
+aws iam list-users                 # List IAM users
+```
+3. AWS SDK
+- Programmatic access from your application code
+- Available for Python (boto3), JavaScript, Java, Go, Ruby, etc.
+- Python example:
+```
+import boto3
+
+# Create S3 client
+s3 = boto3.client('s3')
+
+# List all buckets
+response = s3.list_buckets()
+for bucket in response['Buckets']:
+    print(bucket['Name'])
+```
+_________________________________________________________________________________________________________________________
+
