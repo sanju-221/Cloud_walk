@@ -299,7 +299,7 @@ for bucket in response['Buckets']:
 ```
 _________________________________________________________________________________________________________________________
 
-11. Shared Responsibility Model
+# 11. Shared Responsibility Model
 This is one of the most important AWS concepts. AWS and you share responsibility for security.
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -324,3 +324,32 @@ This is one of the most important AWS concepts. AWS and you share responsibility
 ```
 > Real-world analogy: You rent an apartment. The building owner is responsible for the building's security (locks, walls, fire suppression). You are responsible for locking your own door and not leaving valuables visible.
 ______________________________________________________________________________________________________________________________
+# 13. Common Interview Questions
+
+Q: What is the difference between a Region and an Availability Zone?
+
+> A Region is a geographic location (e.g., N. Virginia). An AZ is a physical data center or group of data centers within that region. A Region has 2–6 AZs. AZs are connected with low-latency networking but isolated from each other's failures.
+
+Q: What is the Shared Responsibility Model?
+
+> AWS is responsible for security "of" the cloud (physical infrastructure, hardware, managed services). You are responsible for security "in" the cloud (your data, OS configuration, network rules, IAM policies, encryption).
+
+Q: What are the differences between IaaS, PaaS, and SaaS?
+
+> IaaS gives you raw infrastructure (EC2) — you manage OS and above. PaaS gives you a runtime platform (Elastic Beanstalk) — you manage only your code. SaaS is a complete application (Gmail) — you just use it.
+
+Q: What is an Edge Location used for?
+
+> Edge Locations are used by Amazon CloudFront (CDN) to cache content close to end users, reducing latency. They are different from AZs — there are 600+ edge locations versus ~105 AZs.
+
+Q: Why would you deploy to multiple AZs?
+
+> For high availability. If one AZ experiences an outage (power failure, networking issue), your application continues to serve traffic from other AZs. Single-AZ deployments have a single point of failure.
+
+Q: What is the difference between CapEx and OpEx in cloud context?
+
+> CapEx (Capital Expenditure) is upfront investment in hardware — traditional data centers. OpEx (Operational Expenditure) is ongoing usage-based costs — the cloud model. Cloud converts CapEx to OpEx, reducing upfront risk.
+
+Q: What is elasticity vs scalability?
+
+> Scalability is the ability to handle more load by adding resources (scale up/out). Elasticity is automatic scaling — the system automatically adds resources under load and removes them when load drops, optimizing cost.
